@@ -1,0 +1,2 @@
+# Turbowarp_Scriptize_Interface
+一份无聊的测试品，可以引入Turbowarp文件中
