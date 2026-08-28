@@ -1,0 +1,303 @@
+Turbowarp Scriptize Interface（TSI）
+Made By Flemming
+
+此方法使用XML书写代码，用于TW程序已经打包之后方便的注入、添加代码。
+
+WARN：想要使用该接口，你所面向的程序的制作者必须提前在程序中安装此接口。
+
+使用到的扩展：
+XML
+文件
+文本
+Lily的工具箱
+变量与列表
+临时变量
+JSON
+艺术字
+
+>>元素-------------------------------------------------------------------
+
+
+
+运动----------------------------------------------------------------------
+<move />移动
+后缀：
+	<move.random /> 移动到随机位置
+	<move.pointer /> 移动到鼠标指针
+	<move.xy x="0" y="0" /> 移动到指定xy坐标
+属性：
+	step=num. 步长（不支持后缀）
+	time=num. 滑行时间（默认为零）
+	x
+	y
+
+<turn />旋转
+后缀：
+	<turn.left angle="xxx" /> 左转
+	<turn.right angle="xxx" /> 右转
+	<turn way="disabled" /> 设置旋转方式
+属性：
+	angle=num. 角度
+	way=disabled 禁止旋转|free 任意旋转|left_and_right 左右旋转（不支持后缀）
+
+<face />面向
+后缀：
+	<face.pointer /> 面向鼠标指针
+	<face angle="xxx" />面向xx方向
+属性：
+	angle=num. 角度
+
+<x /><y />操作x坐标/y坐标
+属性：
+	set=num. 设置
+	add=num. 增加
+
+<rebound />碰到边缘就反弹
+
+外观---------------------------------------------------------------------
+
+<say /><think /> 说/思考
+属性：
+	time=num. 时间
+	c= 内容
+
+<sprite /> 造型
+后缀：
+	<sprite.next /> 下一个造型
+	<sprite.set n="xxx"/>  切换造型
+属性：
+	n=str. 造型名
+	
+<background /> 背景
+后缀：
+	<background.next /> 下一个背景
+	<background.set n="xxx"/>  切换背景
+属性：
+	n=str. 背景名
+	
+<layer /> 层级
+后缀：
+	<layer.up num="xxx" /> 前移
+	<layer.down num="xxx" /> 后移
+	<layer.upmost /> 移到最前面
+	<layer.downmost /> 移到最后面
+属性：
+	num 移动距离
+
+<size /> 调整大小
+属性：
+	set=num. 设置
+	add=num. 增加
+
+<effect way="xxx" /> 增加效果
+属性：
+	way(必填)=color 颜色|fisheye 鱼眼|whirl 漩涡|pixel 像素化|mosaic 马赛克|bright 亮度|ghost 虚像
+	set=num. 设置
+	add=num. 增加
+
+<show /> 显示
+<hide /> 隐藏
+
+声音---------------------------------------------------------------------
+
+<sound /> 声音
+后缀：
+	<sound n="xxx" />(无) 播放声音
+	<sound.wait n="xxx" /> 播放声音并等待播完
+	<sound.stop /> 停止所有声音
+属性：
+	n 声音名
+
+<SE /> 声音效果(SoundEffect)
+后缀：
+	<SE way="xxx" /> 设置音效
+	<SE.clear /> 清除所有音效
+属性：
+	way(必填)=pitch 音调|panLR 左右平衡|volume 音量
+	set=num. 设置
+	add=num. 增加
+
+事件---------------------------------------------------------------------
+
+<twscript></twscript>脚本头
+属性：
+	event=flag 绿旗|click 被点击|press.xxx 按下了xxx|receive.xxx 接收到xxx	
+
+<broadcast.xxx /> 广播xxx(名称)
+
+<broadcast_wait.xxx /> 广播xxx并等待
+
+
+控制---------------------------------------------------------------------
+
+<repeat></repeat>重复执行
+属性：
+	time(必填)=forever（默认）永远|until 直到|when 当…重复执行|num. 次数
+	r 判断表达式
+(r = requirement)
+
+<if></if>条件判断
+属性：
+	r 判断表达式
+
+<wait />等待
+属性：
+	time(必填)=until 直到|num. 时间
+	r 判断表达式
+
+<stop />
+后缀：
+	无 停止全部脚本
+	.this 停止这个脚本
+	.other 停止其他脚本
+
+侦测--------------------------------------------------------------------
+
+<ask /> 提问并等待
+属性：
+	q 问题
+
+<drag /> 设置拖动模式
+后缀：
+	.on 可拖动
+	.off 不可拖动
+
+<timer.reset />重置计时器
+
+>>侦测关键字
+touch.xxx 碰到xxx？
+touch.mouse 碰到鼠标？
+touch.color|#xxxxxx 碰到颜色（RGB）？
+#xxxxxx|color.touch.color|#xxxxxx 颜色 碰到 颜色？
+press.xxx 按下xxx键？
+press.mouse 按下鼠标？
+online 是否联网？
+
+text.showing 是否正在显示文本
+arttext.showing 是否正在显示动画（艺术字）
+
+
+变量--------------------------------------------------------------------
+
+<let n="i" />定义新变量
+后缀：
+	无 临时变量
+	.thread 线程变量
+属性：
+	n=str. 变量名
+	set=num. 设置
+	add=num. 增加
+(n = name)
+//注释：不要使用太特殊的符号；变量名称不要与原程序内已有的变量名称冲突
+
+<var n="i" />修改源程序内已有的变量 不区分私有和公共
+属性：
+	n=str. 变量名
+	set=num. 设置
+	add=num. 增加
+
+<list n="i" />列表
+后缀：
+	<list n="xxx" add="xxx" />
+	<list.delete /> 清空列表
+	<list.delete n="xxx" l="xxx" /> 删除一项
+	<list.insert n="xxx" l="xxx" /> 在项前插入项 
+属性：
+	n=str. 列表名
+	l=num. 位置
+	set=num. 设置列表值
+	add=num. 增加列表项
+（l = location）
+
+#variable#引用变量
+
+内部保留字：
+x x坐标
+y y坐标
+direction 方向
+size 大小
+sprite.name 造型名称
+sprite.id 造型编号
+background.name 背景名称
+background.id 背景编号
+volume 音量
+answer 回答
+mouse.x 鼠标的x坐标
+mouse.y 鼠标的y坐标
+loudness 响度
+timer 计时器
+2000 2000年至今的天数
+range.xxx 到xxx的距离
+
+nowtime.year 当前时间的 年
+nowtime.month 当前时间的 月
+nowtime.day 当前时间的 日
+nowtime.week 当前时间的 周
+nowtime.hour 当前时间的 时
+nowtime.minute 当前时间的 分
+nowtime.second当前时间的 秒
+
+数学运算/条件判断语句-----------------------------------
+
+数学运算符：
++
+-
+*
+/
+^
+()
+% 取余运算
+random.[num1,num2] 在num1和num2之间取随机数
+random.函数内部支持嵌套运算，但是最外层必须有括号
+
+判断运算符：
+and 与
+or 或
+not 不成立
+() 括号
+=
+<
+>
+
+每一个判断运算符与运算式中间应该有“|”分隔开
+
+范例（测试变量=8）：
+(|#测试变量#^2=64|or|#测试变量#*4=31|)|and|18=18
+输出应为true
+#测试变量#^2=63|or|not|(|#测试变量#*4=31|and|18=18|)
+输出应为true
+
+>>扩展----------------------------------------------------------------------
+
+艺术字----------------------------------------------------------------------
+
+<print /> 显示文字
+属性：
+	color 颜色（RGB）
+	align=left|right|middle 对齐方式（默认） 
+	outline 外轮廓宽度
+	outline.color 外轮廓颜色
+	font 字体
+	width 宽度
+	text 输出内容
+	animation 动画效果=printer 逐字显示|rainbow 彩虹色|move 移动动画|shake 抖动
+	animation.wait 播放动画效果并等待放完
+	add 增加一行文本内容
+
+<show.character /> 显示角色
+
+<print.reset /> 重置动画效果的速度/完成时间
+属性：
+	n =printer 逐字显示|rainbow 彩虹色|move 移动动画|shake 抖动
+
+<print.setting /> 设置动画效果的速度/完成时间
+属性：
+	n =printer 逐字显示|rainbow 彩虹色|move 移动动画|shake 抖动|shake.strength 抖动强度
+	time 时间（n=printer 时表示打字速度，n=shake.strength 时表示抖动强度）
+
+变量保留字：
+text.content 显示的文本
+text.row 不自动换行的行数
+text.row.auto 有自动换行的行数
+text.animation.time.xxx 打字速度/动画播放时间
+text.xxx (font|color|width|outline|outline.color|align 获取文本属性
