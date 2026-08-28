@@ -9,7 +9,7 @@ Lily的工具箱 by [LilyMakesThings](https://scratch.mit.edu/users/LilyMakesThi
 JSON by [Skyhigh173](https://scratch.mit.edu/users/Skyhigh173/)和[Mio](https://scratch.mit.edu/users/0znzw/)  
 Script Control by [SharkPool-SP](https://github.com/SharkPool-SP/)  
 本地文件管理 by [DustDot](https://space.bilibili.com/302475547)  
-Messages+ by [SharkPool-SP]((https://github.com/SharkPool-SP/)
+Messages+ by [SharkPool-SP](https://github.com/SharkPool-SP/)
 
 ## 如何使用
 - 直接使用
